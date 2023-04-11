@@ -1,0 +1,125 @@
+
+<h1 style="margin:20px 0px 0px 40px">Nueva Venta</h1>
+<mat-card style="margin: 20px 40px 40px 40px">
+
+
+  <mat-card-content class="dashboard-card-content">
+
+    <form class="example-form" [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
+      <mat-grid-list cols="4" rowHeight="80px">
+        <mat-grid-tile [colspan]="2">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Producto</mat-label>
+            <input type="text"
+                   placeholder="Buscar..."
+                   aria-label="Number"
+                   matInput
+                   [matAutocomplete]="auto"
+                   formControlName="producto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                              (optionSelected)="productoSeleccionado($event)"
+                              [displayWith]="displayProducto">
+              <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                {{option.nombre}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+
+          <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" formControlName="cantidad">
+          </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" style="width: 80%;" [disabled]="formGroup.invalid"><mat-icon>add</mat-icon> Agregar</button>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </form>
+
+    <mat-grid-list cols="4" rowHeight="80px">
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile>
+
+        <mat-form-field  class="example-full-width" appearance="fill"  style="margin-left: 40px;">
+          <mat-label>Tipo de pago</mat-label>
+          <mat-select [(value)]="tipodePago">
+            <mat-option value="Efectivo">Efectivo</mat-option>
+            <mat-option value="Tarjeta">Tarjeta</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </mat-grid-tile>
+      <mat-grid-tile style="text-align:end">
+        <button mat-raised-button color="accent"  style="width: 80%;">Total: S/. {{totalPagar.toFixed(2)}}</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <div class="mat-elevation-z2">
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="producto">
+          <th mat-header-cell *matHeaderCellDef> Producto </th>
+          <td mat-cell *matCellDef="let element"> {{element.descripcionProducto}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+          <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef> Precio </th>
+          <td mat-cell *matCellDef="let element"> {{element.precioTexto}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element"> {{element.totalTexto}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef style="width:80px"> </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="eliminarProducto(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </div>
+    
+    <mat-grid-list cols="4" rowHeight="80px">
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile>
+       
+
+      </mat-grid-tile>
+      <mat-grid-tile>
+          <button mat-raised-button color="primary" style="width: 80%;" [disabled]="ELEMENT_DATA.length< 1 || deshabilitado" (click)="registrarVenta()">
+            <mat-icon>new_label</mat-icon>
+            Registrar
+          </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+  </mat-card-content>
+
+</mat-card>

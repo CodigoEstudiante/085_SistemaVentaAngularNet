@@ -1,0 +1,66 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false">
+
+    <mat-toolbar>
+      Mi Tienda
+    </mat-toolbar>
+
+    <mat-nav-list>
+
+      <mat-list-item routerLink="/pages/dashboard">
+        <mat-icon mat-list-icon>dashboard</mat-icon>
+        <div mat-line>DashBoard</div>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/pages/usuarios">
+        <mat-icon mat-list-icon>group</mat-icon>
+        <div mat-line>Usuarios</div>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/pages/productos">
+        <mat-icon mat-list-icon>collections_bookmark</mat-icon>
+        <div mat-line>Productos</div>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/pages/vender">
+        <mat-icon mat-list-icon>currency_exchange</mat-icon>
+        <div mat-line>Vender</div>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/pages/historialventas">
+        <mat-icon mat-list-icon>edit_note</mat-icon>
+        <div mat-line>Historial Ventas</div>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/pages/reportes">
+        <mat-icon mat-list-icon>receipt</mat-icon>
+        <div mat-line>Reportes</div>
+      </mat-list-item>
+
+    </mat-nav-list>
+    
+
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+               routerLink="/login">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

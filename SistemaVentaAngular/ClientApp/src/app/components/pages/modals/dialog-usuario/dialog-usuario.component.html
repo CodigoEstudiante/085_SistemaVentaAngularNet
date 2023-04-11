@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>{{accion}} Usuario</h2>
+<mat-dialog-content>
+
+  <form [formGroup]="formUsuario">
+    <mat-grid-list cols="1" rowHeight="80px">
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre y apellidos</mat-label>
+          <input matInput autocomplete="off" formControlName="nombreApellido">
+          <mat-icon matSuffix>account_box</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Correo</mat-label>
+          <input matInput autocomplete="off" formControlName="correo">
+          <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="idRol">
+            <mat-option *ngFor="let item of listaRoles" [value]="item.idRol">
+              {{item.descripcion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="clave">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </form>
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close color="warn">Volver</button>
+  <button mat-raised-button
+          color="primary"
+          [disabled]="formUsuario.invalid"
+          (click)="agregarEditarUsuario()">
+    {{accionBoton}}
+  </button>
+</mat-dialog-actions>

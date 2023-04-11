@@ -1,0 +1,120 @@
+
+<h1 style="margin:20px 0px 0px 40px">Historial Venta</h1>
+<mat-card style="margin: 20px 40px 40px 40px">
+
+
+  <mat-card-content class="dashboard-card-content">
+
+    <form class="example-form" [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
+      <mat-grid-list cols="4" rowHeight="80px">
+
+        <mat-grid-tile>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Buscar Por</mat-label>
+            <mat-select formControlName="buscarPor">
+              <mat-option *ngFor="let item of buscarItem" [value]="item.value">
+                {{item.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="formGroup.value.buscarPor=='numero'">
+          <mat-form-field appearance="fill">
+            <mat-label>Número Orden</mat-label>
+            <input matInput formControlName="numero">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="formGroup.value.buscarPor=='fecha'">
+
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha Inicio</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="fechaInicio">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="formGroup.value.buscarPor=='fecha'">
+
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha Fin</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="fechaFin">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" style="width: 80%;" [disabled]="formGroup.invalid" type="submit"><mat-icon>search</mat-icon> Buscar</button>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+      <mat-divider></mat-divider>
+    </form>
+
+
+
+    <mat-form-field class="input-filter"  appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z2">
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="numeroVenta">
+          <th mat-header-cell *matHeaderCellDef> Fecha Registro </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaRegistro }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="fechaRegistro">
+          <th mat-header-cell *matHeaderCellDef> Numero de Venta  </th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroDocumento}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="tipoPago">
+          <th mat-header-cell *matHeaderCellDef> Tipo de Pago </th>
+          <td mat-cell *matCellDef="let element"> {{element.tipoPago}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element"> {{element.totalTexto}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef style="width:80px"> </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="verDetalle(element)" matTooltip="Ver detalle">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                     showFirstLastButtons
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+
+    </div>
+
+  </mat-card-content>
+
+</mat-card>
